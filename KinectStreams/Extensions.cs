@@ -14,6 +14,7 @@ namespace KinectStreams
     {
         #region Camera
 
+
         public static ImageSource ToBitmap(this ColorFrame frame)
         {
             int width = frame.FrameDescription.Width;
