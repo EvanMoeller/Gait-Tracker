@@ -142,7 +142,7 @@ namespace KinectStreams
         }
         private void SaveJointPositions(Body body)
         {
-            string path = @"C:/jointTest.csv";
+            string path = @"../../../Data/test.csv";
             var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
             using (StreamWriter sw = File.AppendText(path))
             {
