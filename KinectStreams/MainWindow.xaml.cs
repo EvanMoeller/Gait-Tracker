@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace KinectStreams
 {
@@ -132,13 +133,32 @@ namespace KinectStreams
                                 {
                                     canvas.DrawSkeleton(body);
                                 }
+                                SaveJointPositions(body);
                             }
                         }
                     }
                 }
             }
         }
-
+        private void SaveJointPositions(Body body)
+        {
+            string path = @"C:/jointTest.csv";
+            var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.NewLine = "";
+                //sw.WriteLine(body.Joints[JointType.Head].Position.X + "," + body.Joints[JointType.Head].Position.Y + "," + body.Joints[JointType.Head].Position.Z + ",," + body.Joints[JointType.Neck].Position.X + "," + body.Joints[JointType.Neck].Position.Y + "," + body.Joints[JointType.Neck].Position.Z + ",," + body.Joints[JointType.SpineShoulder].Position.X + "," + body.Joints[JointType.SpineShoulder].Position.Y + "," + body.Joints[JointType.SpineShoulder].Position.Z + ",," + body.Joints[JointType.ShoulderLeft].Position.X + "," + body.Joints[JointType.ShoulderLeft].Position.Y + "," + body.Joints[JointType.ShoulderLeft].Position.Z + ",," + body.Joints[JointType.ShoulderRight].Position.X + "," + body.Joints[JointType.ShoulderRight].Position.Y + "," + body.Joints[JointType.ShoulderRight].Position.Z);
+                //for (int i = 0; i < 25; i++)
+                //{
+                //    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z);
+                //}
+                foreach (var i in jointList)
+                {
+                    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z + ",,");
+                }
+                sw.WriteLine("\r\n");
+            }
+        }
         private void Color_Click(object sender, RoutedEventArgs e)
         {
             _mode = Mode.Color;
