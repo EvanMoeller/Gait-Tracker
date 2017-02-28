@@ -14,7 +14,6 @@ namespace KinectStreams
     {
         #region Camera
 
-
         public static ImageSource ToBitmap(this ColorFrame frame)
         {
             int width = frame.FrameDescription.Width;
@@ -142,13 +141,13 @@ namespace KinectStreams
 
         #region Drawing
 
-        public static void DrawSkeleton(this Canvas canvas, Body body)
+        public static void DrawSkeleton(this Canvas canvas, Body body, Mode mode, KinectSensor sensor)
         {
             if (body == null) return;
 
             foreach (Joint joint in body.Joints.Values)
             {
-                canvas.DrawPoint(joint);
+                canvas.DrawPoint(joint, mode, sensor);
             }
 
             canvas.DrawLine(body.Joints[JointType.Head], body.Joints[JointType.Neck]);
@@ -177,7 +176,7 @@ namespace KinectStreams
             canvas.DrawLine(body.Joints[JointType.AnkleRight], body.Joints[JointType.FootRight]);
         }
 
-        public static void DrawPoint(this Canvas canvas, Joint joint)
+        public static void DrawPoint(this Canvas canvas, Joint joint, Mode mode, KinectSensor sensor)
         {
             if (joint.TrackingState == TrackingState.NotTracked) return;
 
@@ -190,8 +189,17 @@ namespace KinectStreams
                 Fill = new SolidColorBrush(Colors.LightBlue)
             };
 
-            Canvas.SetLeft(ellipse, joint.Position.X - ellipse.Width / 2);
-            Canvas.SetTop(ellipse, joint.Position.Y - ellipse.Height / 2);
+            if (mode == Mode.Color)
+            {
+                ColorSpacePoint colorPoint = sensor.CoordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                Canvas.SetLeft(ellipse, colorPoint.X - ellipse.Width / 2);
+                //Canvas.SetTop(ellipse, colorPoint.Y - ellipse.Height / 2);
+            }
+            else
+            {
+                Canvas.SetLeft(ellipse, joint.Position.X - ellipse.Width / 2);
+                Canvas.SetTop(ellipse, joint.Position.Y - ellipse.Height / 2);
+            }
 
             canvas.Children.Add(ellipse);
         }
