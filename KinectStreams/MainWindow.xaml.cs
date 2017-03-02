@@ -13,7 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
+//NOTE: THis is the only class we really care about right now.
+// I left Extension.cs in the project as we may want to use the functions it has later.
 namespace KinectStreams
 {
     /// <summary>
@@ -22,15 +25,10 @@ namespace KinectStreams
     public partial class MainWindow : Window
     {
         #region Members
-
-        Mode _mode = Mode.Color;
-
         KinectSensor _sensor;
         MultiSourceFrameReader _reader;
         IList<Body> _bodies;
-
-        bool _displayBody = false;
-
+        bool record = false;
         #endregion
 
         #region Constructor
@@ -42,7 +40,7 @@ namespace KinectStreams
 
         #endregion
 
-        #region Event handlers
+        #region Window Events
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -69,47 +67,21 @@ namespace KinectStreams
                 _sensor.Close();
             }
         }
+        #endregion
 
         void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
         {
             var reference = e.FrameReference.AcquireFrame();
-
+            #region Color, depth, and infrard capture
             // Color
             using (var frame = reference.ColorFrameReference.AcquireFrame())
             {
                 if (frame != null)
                 {
-                    if (_mode == Mode.Color)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
+                    camera.Source = frame.ToBitmap();
                 }
             }
-
-            // Depth
-            using (var frame = reference.DepthFrameReference.AcquireFrame())
-            {
-                if (frame != null)
-                {
-                    if (_mode == Mode.Depth)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
-
-            // Infrared
-            using (var frame = reference.InfraredFrameReference.AcquireFrame())
-            {
-                if (frame != null)
-                {
-                    if (_mode == Mode.Infrared)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
-
+            #endregion
             // Body
             using (var frame = reference.BodyFrameReference.AcquireFrame())
             {
@@ -127,10 +99,33 @@ namespace KinectStreams
                         {
                             if (body.IsTracked)
                             {
-                                // Draw skeleton.
-                                if (_displayBody)
+                                Point point = new Point();
+                                foreach (Joint joint in body.Joints.Values)
                                 {
-                                    canvas.DrawSkeleton(body, _mode, _sensor);
+                                    if (joint.TrackingState == TrackingState.Tracked)
+                                    {
+                                       //get color point and make sure it's not infinity
+                                        ColorSpacePoint colorPoint = _sensor.CoordinateMapper.MapCameraPointToColorSpace(joint.Position);
+                                        point.X = float.IsInfinity(colorPoint.X) ? 0 : colorPoint.X;
+                                        point.Y = float.IsInfinity(colorPoint.Y) ? 0 : colorPoint.Y;
+
+                                        //create ellipse to draw on screen
+                                        Ellipse ellipse = new Ellipse
+                                        {
+                                            Width = 15,
+                                            Height = 15,
+                                            Fill = new SolidColorBrush(Colors.DarkRed)
+                                        };
+                                        //draw to screen
+                                        Canvas.SetLeft(ellipse, point.X - ellipse.Width * 2);
+                                        Canvas.SetTop(ellipse, point.Y - ellipse.Height * 2);
+                                        canvas.Children.Add(ellipse);
+                                    }
+                                }
+                                if(record)
+                                {
+                                    //if record button is pressed, record gait
+                                    RecordGait(body);
                                 }
                             }
                         }
@@ -138,34 +133,30 @@ namespace KinectStreams
                 }
             }
         }
-
-        private void Color_Click(object sender, RoutedEventArgs e)
+        #region Recording Functions
+        private void RecordGait(Body body)
         {
-            _mode = Mode.Color;
+            string path = @"../../../Data/test.csv";
+            var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.NewLine = "";
+                foreach (var i in jointList)
+                {
+                    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z + ",,");
+                }
+                sw.WriteLine("\r\n");
+            }
+        }
+        private void StartRecord(object sender, RoutedEventArgs e)
+        {
+            record = true;
         }
 
-        private void Depth_Click(object sender, RoutedEventArgs e)
+        private void StopRecord(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Depth;
+            record = false;
         }
-
-        private void Infrared_Click(object sender, RoutedEventArgs e)
-        {
-            _mode = Mode.Infrared;
-        }
-
-        private void Body_Click(object sender, RoutedEventArgs e)
-        {
-            _displayBody = !_displayBody;
-        }
-
         #endregion
-    }
-
-    public enum Mode
-    {
-        Color,
-        Depth,
-        Infrared
     }
 }
