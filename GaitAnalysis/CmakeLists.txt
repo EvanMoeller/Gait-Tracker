@@ -1,0 +1,22 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0 FATAL_ERROR)
+cmake_policy(VERSION 3.0)
+SET (project GaitAnalysis)
+PROJECT(${project})
+#make sure we only build release
+SET(CMAKE_CONFIGURATION_TYPES Debug Release CACHE STRING "" FORCE)
+SET(SOURCE_DIR "source")
+SET(INCLUDE_DIR "include")
+
+INCLUDE_DIRECTORIES(include)
+
+FILE(GLOB SOURCE_FILES ${SOURCE_DIR}/*.cpp)
+FILE(GLOB HEADER_FILES ${INCLUDE_DIR}/*.h)
+
+#header filters
+SOURCE_GROUP("Header Files" FILES ${HEADER_FILES})
+#source filters
+SOURCE_GROUP("Source Files" FILES ${SOURCE_FILES})
+
+#create exe
+ADD_EXECUTABLE(${project} ${SOURCE_FILES} ${HEADER_FILES})
+
