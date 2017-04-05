@@ -2,9 +2,9 @@ clc
 clear all
 close all
 
-fileName = 'test.xls';
+fileName = 'Julia.xls';
 data = xlsread(fileName);
-frames = size(data,2);
+frames = size(data,1);
 display(data)
 display(frames)
 for i=1:1:frames
@@ -14,6 +14,8 @@ for i=1:1:frames
       plot3(x0, y0, z0)
       hold on
       axis equal
+      axis off
+      view(1,60)
       x1 = [data(i,4), data(i,61)];   %spinemid to spineshoulder
       y1 = [data(i,5), data(i,62)];
       z1 = [data(i,6), data(i,63)];
@@ -114,11 +116,13 @@ for i=1:1:frames
       z20 = [data(i,57), data(i,60)];
       plot3(x20, y20, z20)
       hold on 
-     plot3(data(i,61), data(i,62), data(i,63),'*')
-    for j=1:3:63
-      plot3(data(i,j), data(i,j+1), data(i,j+2),'*')
-      hold on
-    end
-  input('Press enter to continue')
-  close all
+      
+      for j=1:3:63              %plots nodes
+        plot3(data(i,j), data(i,j+1), data(i,j+2),'*')
+        hold on
+      end
+  %    input('Press enter to continue')
+      pause(0.01)
+      cla
+
 end
