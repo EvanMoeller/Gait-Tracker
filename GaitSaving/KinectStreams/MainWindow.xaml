@@ -9,6 +9,7 @@
             <StackPanel Style="{StaticResource StackPanelButtonsStyle}">
                 <Button Content="Start Recording" Style="{StaticResource ButtonStyle}" Click="StartRecord" />
                 <Button Content="Stop Recording" Style="{StaticResource ButtonStyle}" Click="StopRecord" />
+                <Rectangle Name="rb" Width="35" Height="35" Fill="Black"/>
             </StackPanel>
         </Grid>
     </Grid>

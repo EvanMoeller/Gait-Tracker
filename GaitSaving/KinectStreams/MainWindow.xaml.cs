@@ -143,19 +143,22 @@ namespace KinectStreams
                 sw.NewLine = "";
                 foreach (var i in jointList)
                 {
-                    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z + ",,");
+                    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z + ",");
                 }
+                sw.WriteLine(DateTime.Now.Ticks);
                 sw.WriteLine("\r\n");
             }
         }
         private void StartRecord(object sender, RoutedEventArgs e)
         {
             record = true;
+            rb.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
         }
 
         private void StopRecord(object sender, RoutedEventArgs e)
         {
             record = false;
+            rb.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
         #endregion
     }
