@@ -1,9 +1,9 @@
-*.sln
-*.vcxproj*
+#*.sln
+#*.vcxproj*
 *.cmake
 *.exe
 *.sdf
-*.suo
+#*.suo
 *.VC.db
 *.VC.opendb
 **/bin
