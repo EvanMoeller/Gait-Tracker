@@ -6,8 +6,8 @@
 *.suo
 *.VC.db
 *.VC.opendb
-*bin/
-*obj/
+**/bin
+**/obj
 
 # Windows image file caches
 Thumbs.db
