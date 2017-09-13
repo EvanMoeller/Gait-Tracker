@@ -136,7 +136,7 @@ namespace KinectStreams
         #region Recording Functions
         private void RecordGait(Body body)
         {
-            string path = @"../../../Data/test.csv";
+            string path = @"../../../OutputData/test.csv";
             var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
             using (StreamWriter sw = File.AppendText(path))
             {
