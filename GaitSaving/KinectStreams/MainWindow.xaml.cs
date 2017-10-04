@@ -138,12 +138,16 @@ namespace KinectStreams
         {
             string path = @"../../../OutputData/test.csv";
             var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
+            int[] subset = new int[] { 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 21 };
             using (StreamWriter sw = File.AppendText(path))
             {
                 sw.NewLine = "";
-                foreach (var i in jointList)
+                foreach (int i in subset)
                 {
-                    sw.WriteLine(body.Joints[i].Position.X + "," + body.Joints[i].Position.Y + "," + body.Joints[i].Position.Z + ",");
+                    var p = (JointType)i;
+                    sw.WriteLine(body.Joints[p].Position.X + "," + body.Joints[p].Position.Y + ","
+                        /*+ body.Joints[i].Position.Z + ","*/
+                        );
                 }
                 sw.WriteLine(DateTime.Now.Ticks);
                 sw.WriteLine("\r\n");
