@@ -69,6 +69,8 @@ def graphAllData(name):
     objer = Graphing(name)
     objer.plot_cont(objer.arr, objer.allYData, objer.allXData)
 
+def getObjectOfForFile(name):
+    return Graphing(name)
 """
 Given arrays of various angles, Graphs the 4 different arrays in four different graphs with labelled Axes
 """
@@ -101,5 +103,5 @@ arctan((xKneeLeft-xAnkleLeft)/(yKneeLeft-yAnkleLeft))
 """
 
 
-graphObjectAngles("walter1.csv")
-graphAllData("walter1.csv")
+# graphObjectAngles("walter1.csv")
+# graphAllData("walter1.csv")
