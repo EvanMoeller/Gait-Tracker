@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 
-class Graphing:
+class SideGraphing:
 
     def __init__(self,namee):
         self.fileName = namee
         """
-        Reads in test.csv and makes it into an array
+        Reads in <namee>.csv and makes it into an array
         """
-        addr = "../GaitSaving/OutputData/" + self.fileName
+        addr = "../GaitSaving/OutputData/SideViews/" + self.fileName
         with open(os.path.join(os.getcwd(),addr), 'r') as f:
             read = csv.reader(f, delimiter=',')
             self.arr = list(read)

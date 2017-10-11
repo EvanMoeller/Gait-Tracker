@@ -29,6 +29,8 @@ namespace KinectStreams
         MultiSourceFrameReader _reader;
         IList<Body> _bodies;
         bool record = false;
+        bool snapshot = false;
+        string subjectID = "walter10-11";
         #endregion
 
         #region Constructor
@@ -127,6 +129,10 @@ namespace KinectStreams
                                     //if record button is pressed, record gait
                                     RecordGait(body);
                                 }
+                                if(snapshot)
+                                {
+                                    RecordSnap(body);
+                                }
                             }
                         }
                     }
@@ -136,7 +142,8 @@ namespace KinectStreams
         #region Recording Functions
         private void RecordGait(Body body)
         {
-            string path = @"../../../OutputData/test.csv";
+
+            string path = @"../../../OutputData/SideViews/" + subjectID + ".csv";
             var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
             int[] subset = new int[] { 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 21 };
             using (StreamWriter sw = File.AppendText(path))
@@ -153,6 +160,25 @@ namespace KinectStreams
                 sw.WriteLine("\r\n");
             }
         }
+        private void RecordSnap(Body body)
+        {
+            string path2 = @"../../../OutputData/FrontViews/" + subjectID + ".csv";
+            var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
+            int[] subset = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+            using (StreamWriter sw = File.AppendText(path2))
+            {
+                sw.NewLine = "";
+                foreach (int i in subset)
+                {
+                    var p = (JointType)i;
+                    sw.WriteLine(body.Joints[p].Position.X + "," + body.Joints[p].Position.Y + "," + body.Joints[p].Position.Z + ",");
+                }
+                sw.WriteLine(body.Joints[(JointType)24].Position.X + "," + body.Joints[(JointType)24].Position.Y + "," + body.Joints[(JointType)24].Position.Z);
+                //sw.WriteLine("\r\n");
+            }
+            snapshot = false;
+            br.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+        }
         private void StartRecord(object sender, RoutedEventArgs e)
         {
             record = true;
@@ -163,6 +189,11 @@ namespace KinectStreams
         {
             record = false;
             rb.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        }
+        private void FrontSnapshot(object sender, RoutedEventArgs e)
+        {
+            snapshot = true;
+            br.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
         }
         #endregion
     }

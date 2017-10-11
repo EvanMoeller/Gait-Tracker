@@ -7,9 +7,11 @@
         <Canvas Name="canvas" />
         <Grid Style="{StaticResource GridButtonsStyle}">
             <StackPanel Style="{StaticResource StackPanelButtonsStyle}">
-                <Button Content="Start Recording" Style="{StaticResource ButtonStyle}" Click="StartRecord" />
-                <Button Content="Stop Recording" Style="{StaticResource ButtonStyle}" Click="StopRecord" />
+                <Button Content="Start Recording Side" Style="{StaticResource ButtonStyle}" Click="StartRecord" />
+                <Button Content="Stop Recording Side" Style="{StaticResource ButtonStyle}" Click="StopRecord" />
                 <Rectangle Name="rb" Width="35" Height="35" Fill="Black"/>
+                <Button Content="Front Snapshot" Style="{StaticResource ButtonStyle}" Click="FrontSnapshot" />
+                <Rectangle Name="br" Width="35" Height="35" Fill="Blue"/>
             </StackPanel>
         </Grid>
     </Grid>

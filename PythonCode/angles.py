@@ -1,4 +1,4 @@
-from graphing import Graphing
+from sideGraphing import SideGraphing
 import math
 import matplotlib.pyplot as plt
 
@@ -52,7 +52,7 @@ def generateAngles(objer):
 Given the name of a file, Generates the angles for that specific file
 """
 def getAnglesForFile(name):
-    objer = Graphing(name)
+    objer = SideGraphing(name)
     return generateAngles(objer)
 
 """
@@ -66,11 +66,11 @@ def graphObjectAngles(name):
 Given the name of a file, Graphs all of the data from that file (animation method)
 """
 def graphAllData(name):
-    objer = Graphing(name)
+    objer = SideGraphing(name)
     objer.plot_cont(objer.arr, objer.allYData, objer.allXData)
 
 def getObjectOfForFile(name):
-    return Graphing(name)
+    return SideGraphing(name)
 """
 Given arrays of various angles, Graphs the 4 different arrays in four different graphs with labelled Axes
 """
