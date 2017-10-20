@@ -12,6 +12,9 @@
                 <Rectangle Name="rb" Width="35" Height="35" Fill="Black"/>
                 <Button Content="Front Snapshot" Style="{StaticResource ButtonStyle}" Click="FrontSnapshot" />
                 <Rectangle Name="br" Width="35" Height="35" Fill="Blue"/>
+                <Button Content="Start Recording Front" Style="{StaticResource ButtonStyle}" Click="StartFrontRecord" />
+                <Button Content="Stop Recording Front" Style="{StaticResource ButtonStyle}" Click="StopFrontRecord" />
+                <Rectangle Name="rr" Width="35" Height="35" Fill="Black"/>
             </StackPanel>
         </Grid>
     </Grid>

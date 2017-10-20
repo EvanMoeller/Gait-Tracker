@@ -30,7 +30,8 @@ namespace KinectStreams
         IList<Body> _bodies;
         bool record = false;
         bool snapshot = false;
-        string subjectID = "walter10-11";
+        bool frontRecord = false;
+        string subjectID = "MaxTesting10-20";
         #endregion
 
         #region Constructor
@@ -124,12 +125,16 @@ namespace KinectStreams
                                         canvas.Children.Add(ellipse);
                                     }
                                 }
-                                if(record)
+                                if(record && !frontRecord)
                                 {
                                     //if record button is pressed, record gait
                                     RecordGait(body);
                                 }
-                                if(snapshot)
+                                if(frontRecord && !record)
+                                {
+                                    RecordForward(body);
+                                }
+                                if(snapshot && !record && !frontRecord)
                                 {
                                     RecordSnap(body);
                                 }
@@ -160,9 +165,27 @@ namespace KinectStreams
                 sw.WriteLine("\r\n");
             }
         }
+        private void RecordForward(Body body)
+        {
+
+            string path3 = @"../../../OutputData/FrontViews/Dynamic/" + subjectID + ".csv";
+            var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
+            int[] subset = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
+            using (StreamWriter sw = File.AppendText(path3))
+            {
+                sw.NewLine = "";
+                foreach (int i in subset)
+                {
+                    var p = (JointType)i;
+                    sw.WriteLine(body.Joints[p].Position.X + "," + body.Joints[p].Position.Y + "," + body.Joints[p].Position.Z + ",");
+                }
+                sw.WriteLine(body.Joints[(JointType)24].Position.X + "," + body.Joints[(JointType)24].Position.Y + "," + body.Joints[(JointType)24].Position.Z);
+                sw.WriteLine("\r\n");
+            }
+        }
         private void RecordSnap(Body body)
         {
-            string path2 = @"../../../OutputData/FrontViews/" + subjectID + ".csv";
+            string path2 = @"../../../OutputData/FrontViews/Static/" + subjectID + ".csv";
             var jointList = Enum.GetValues(typeof(JointType)).Cast<JointType>();
             int[] subset = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
             using (StreamWriter sw = File.AppendText(path2))
@@ -182,7 +205,16 @@ namespace KinectStreams
         private void StartRecord(object sender, RoutedEventArgs e)
         {
             record = true;
-            rb.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            if (!frontRecord)
+            {
+                rb.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            }
+            else
+            {
+                rb.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 0));
+                rr.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 0));
+            }
+            
         }
 
         private void StopRecord(object sender, RoutedEventArgs e)
@@ -194,6 +226,26 @@ namespace KinectStreams
         {
             snapshot = true;
             br.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+        }
+        private void StartFrontRecord(object sender, RoutedEventArgs e)
+        {
+            frontRecord = true;
+            if (!record)
+            {
+                rr.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            }
+            else
+            {
+                rr.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 0));
+                rb.Fill = new SolidColorBrush(Color.FromRgb(255, 153, 0));
+            }
+            
+        }
+
+        private void StopFrontRecord(object sender, RoutedEventArgs e)
+        {
+            frontRecord = false;
+            rr.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
         #endregion
     }

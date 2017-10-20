@@ -11,7 +11,7 @@ class FrontGraphing:
         """
         Reads in <namee>.csv and makes it into an array and individual objects
         """
-        addr = "../GaitSaving/OutputData/FrontViews/" + self.fileName
+        addr = "../GaitSaving/OutputData/FrontViews/Static/" + self.fileName
         with open(os.path.join(os.getcwd(),addr), 'r') as f:
             read = csv.reader(f, delimiter=',')
             arr1 = list(read)
@@ -265,5 +265,6 @@ class FrontGraphing:
         return math.sqrt((jointTwo[0]-jointOne[0])**2 + (jointTwo[1]-jointOne[1])**2 + (jointTwo[2]-jointOne[2])**2)
 
 objer = FrontGraphing("walter10-11.csv")
+objer.graph()
 print(objer.jointLength(objer.shoulderLeft,objer.elbowLeft))
 #objer.graph()
