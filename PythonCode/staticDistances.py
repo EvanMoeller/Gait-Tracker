@@ -1,6 +1,9 @@
 import math
 import matplotlib.pyplot as plt
 import angles
+import numpy as np
+from numpy import mean, sqrt, square
+
 #from graphing import Graphing
 
 #angles.graphObjectAngles("walter1.csv")
@@ -33,6 +36,9 @@ def generateDistancesForFile(name):
     neckHead = calculateDistanceForJoints(objer.xNeck,objer.yNeck,objer.xHead,objer.yHead)
     return hipKnee,kneeAnkle,shoulderElbow,elbowHand,neckHead
 
+def rms(angleOrLengthArray):
+    return sqrt(mean(square(angleOrLengthArray)))
+
 """
 Graphs Distance Data
 """
@@ -41,26 +47,31 @@ def graphDistanceData(hipKnee,kneeAnkle,shoulderElbow,elbowHand,neckHead):
 
     plt.subplot(331)
     plt.plot(hipKnee)
+    plt.axhline(y=rms(hipKnee), color='r', linestyle='--')
     plt.ylabel("Distance between Hip and Knee")
     plt.xlabel("Frames")
 
     plt.subplot(333)
     plt.plot(kneeAnkle)
+    plt.axhline(y=rms(kneeAnkle), color='r', linestyle='--')
     plt.ylabel("Distance between Knee and Ankle")
     plt.xlabel("Frames")
 
     plt.subplot(335)
     plt.plot(shoulderElbow)
+    plt.axhline(y=rms(shoulderElbow), color='r', linestyle='--')
     plt.ylabel("Distance between Shoulder and Elbow")
     plt.xlabel("Frames")
 
     plt.subplot(337)
     plt.plot(elbowHand)
+    plt.axhline(y=rms(elbowHand), color='r', linestyle='--')
     plt.ylabel("Distance between Elbow and Hand")
     plt.xlabel("Frames")
 
     plt.subplot(337)
     plt.plot(neckHead)
+    plt.axhline(y=rms(neckHead), color='r', linestyle='--')
     plt.ylabel("Distance between Neck and Head")
     plt.xlabel("Frames")
 
@@ -75,26 +86,31 @@ def graphDistanceDataForFile(name):
 
     plt.subplot(331)
     plt.plot(hipKnee)
+    plt.axhline(y=rms(hipKnee), color='r', linestyle='--')
     plt.ylabel("Distance between Hip and Knee")
     plt.xlabel("Frames")
 
     plt.subplot(333)
     plt.plot(kneeAnkle)
+    plt.axhline(y=rms(kneeAnkle), color='r', linestyle='--')
     plt.ylabel("Distance between Knee and Ankle")
     plt.xlabel("Frames")
 
     plt.subplot(335)
     plt.plot(shoulderElbow)
+    plt.axhline(y=rms(shoulderElbow), color='r', linestyle='--')
     plt.ylabel("Distance between Shoulder and Elbow")
     plt.xlabel("Frames")
 
     plt.subplot(337)
     plt.plot(elbowHand)
+    plt.axhline(y=rms(elbowHand), color='r', linestyle='--')
     plt.ylabel("Distance between Elbow and Hand")
     plt.xlabel("Frames")
 
     plt.subplot(339)
     plt.plot(neckHead)
+    plt.axhline(y=rms(neckHead), color='r', linestyle='--')
     plt.ylabel("Distance between Neck and Head")
     plt.xlabel("Frames")
 
