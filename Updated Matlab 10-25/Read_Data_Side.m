@@ -1,0 +1,25 @@
+function[Subject] = Read_Data_Side(fileName,T)
+Data=dlmread(fileName);
+Subject.NeckX = Data(1:1:T,1);
+Subject.NeckY = Data(1:1:T,2);
+Subject.HeadX = Data(1:1:T,3);
+Subject.HeadY = Data(1:1:T,4);
+Subject.ShoulderLeftX = Data(1:1:T,5);
+Subject.ShoulderLeftY = Data(1:1:T,6);
+Subject.ElbowLeftX = Data(1:1:T,7);
+Subject.ElbowLeftY = Data(1:1:T,8);
+Subject.WristLeftX = Data(1:1:T,9);
+Subject.WristLeftY = Data(1:1:T,10);
+Subject.HandLeftX = Data(1:1:T,11);
+Subject.HandLeftY = Data(1:1:T,12);
+Subject.HipLeftX = Data(1:1:T,13);
+Subject.HipLeftY = Data(1:1:T,14);
+Subject.KneeLeftX = Data(1:1:T,15);
+Subject.KneeLeftY = Data(1:1:T,16);
+Subject.AnkleLeftX = Data(1:1:T,17);
+Subject.AnkleLeftY = Data(1:1:T,18);
+Subject.FootLeftX = Data(1:1:T,19);
+Subject.FootLeftY = Data(1:1:T,20);
+Subject.HandTipLeftX = Data(1:1:T,21);
+Subject.HandTipLeftY = Data(1:1:T,22);
+end
