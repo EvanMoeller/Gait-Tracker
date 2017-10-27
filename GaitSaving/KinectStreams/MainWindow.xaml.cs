@@ -31,7 +31,9 @@ namespace KinectStreams
         bool record = false;
         bool snapshot = false;
         bool frontRecord = false;
-        string subjectID = "MaxTesting10-20";
+        //string subjectID = "MaxTesting10-20";
+        string subjectID;
+        bool changedID = false;
         #endregion
 
         #region Constructor
@@ -204,6 +206,10 @@ namespace KinectStreams
         }
         private void StartRecord(object sender, RoutedEventArgs e)
         {
+            if (!changedID)
+            {
+                return;
+            }
             record = true;
             if (!frontRecord)
             {
@@ -219,16 +225,28 @@ namespace KinectStreams
 
         private void StopRecord(object sender, RoutedEventArgs e)
         {
+            if (!changedID)
+            {
+                return;
+            }
             record = false;
             rb.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         }
         private void FrontSnapshot(object sender, RoutedEventArgs e)
         {
+            if (!changedID)
+            {
+                return;
+            }
             snapshot = true;
             br.Fill = new SolidColorBrush(Color.FromRgb(0, 255, 0));
         }
         private void StartFrontRecord(object sender, RoutedEventArgs e)
         {
+            if (!changedID)
+            {
+                return;
+            }
             frontRecord = true;
             if (!record)
             {
@@ -244,8 +262,42 @@ namespace KinectStreams
 
         private void StopFrontRecord(object sender, RoutedEventArgs e)
         {
+            if (!changedID)
+            {
+                return;
+            }
             frontRecord = false;
             rr.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+        }
+
+        private void saveSubjectID(object sender, RoutedEventArgs e)
+        {
+            subjectID = subjectInput.Text;
+            changedID = true;
+            this.Title = "FRI - Kinect Gait Recording: " + subjectID;
+        }
+
+        private void SelectAddress(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (sender as TextBox);
+            if (tb != null)
+            {
+                tb.SelectAll();
+            }
+        }
+
+        private void SelectivelyIgnoreMouseButton(object sender,
+            MouseButtonEventArgs e)
+        {
+            TextBox tb = (sender as TextBox);
+            if (tb != null)
+            {
+                if (!tb.IsKeyboardFocusWithin)
+                {
+                    e.Handled = true;
+                    tb.Focus();
+                }
+            }
         }
         #endregion
     }

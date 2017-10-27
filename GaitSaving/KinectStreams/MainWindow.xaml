@@ -1,20 +1,24 @@
 ﻿<Window x:Class="KinectStreams.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="FRI - Kinect Gait Recording" Height="1080" Width="1920" Loaded="Window_Loaded" Closed="Window_Closed" WindowState="Maximized">
+        Title="FRI - Kinect Gait Recording: Please Enter an Identifier for the Subject" Height="1080" Width="1920" Loaded="Window_Loaded" Closed="Window_Closed" WindowState="Maximized" >
     <Grid>
         <Image Name="camera" />
         <Canvas Name="canvas" />
         <Grid Style="{StaticResource GridButtonsStyle}">
             <StackPanel Style="{StaticResource StackPanelButtonsStyle}">
-                <Button Content="Start Recording Side" Style="{StaticResource ButtonStyle}" Click="StartRecord" />
-                <Button Content="Stop Recording Side" Style="{StaticResource ButtonStyle}" Click="StopRecord" />
-                <Rectangle Name="rb" Width="35" Height="35" Fill="Black"/>
-                <Button Content="Front Snapshot" Style="{StaticResource ButtonStyle}" Click="FrontSnapshot" />
-                <Rectangle Name="br" Width="35" Height="35" Fill="Blue"/>
-                <Button Content="Start Recording Front" Style="{StaticResource ButtonStyle}" Click="StartFrontRecord" />
-                <Button Content="Stop Recording Front" Style="{StaticResource ButtonStyle}" Click="StopFrontRecord" />
-                <Rectangle Name="rr" Width="35" Height="35" Fill="Black"/>
+                <Border BorderThickness="3" BorderBrush="DarkGoldenrod"  Height="25" Width="105">
+                    <TextBox Text="Subject ID" Height="20" Width="100" Name="subjectInput" MouseDoubleClick="SelectAddress" GotKeyboardFocus="SelectAddress" PreviewMouseLeftButtonDown="SelectivelyIgnoreMouseButton"/>
+                </Border>
+                <Button Content="Save Subject ID" Style="{StaticResource ButtonStyle}" Click="saveSubjectID" BorderBrush="DarkGoldenrod"  BorderThickness="3"/>
+                <Button Content="Start Recording Side" BorderThickness="3" BorderBrush="DarkCyan" Style="{StaticResource ButtonStyle}" Click="StartRecord" />
+                <Button Content="Stop Recording Side" BorderThickness="3" BorderBrush="DarkCyan" Style="{StaticResource ButtonStyle}" Click="StopRecord" />
+                <Rectangle Name="rb" Width="35" Height="35" StrokeThickness="3" Stroke="DarkCyan" Fill="Black"/>
+                <Button Content="Front Snapshot" Style="{StaticResource ButtonStyle}" Click="FrontSnapshot" BorderThickness="3" BorderBrush="Tomato"/>
+                <Rectangle Name="br" Width="35" Height="35" Fill="Blue" StrokeThickness="3" Stroke="Tomato"/>
+                <Button Content="Start Recording Front" Style="{StaticResource ButtonStyle}" Click="StartFrontRecord" BorderThickness="3" BorderBrush="OliveDrab"/>
+                <Button Content="Stop Recording Front" Style="{StaticResource ButtonStyle}" Click="StopFrontRecord" BorderThickness="3" BorderBrush="OliveDrab"/>
+                <Rectangle Name="rr" Width="35" Height="35" Fill="Black" StrokeThickness="3" Stroke="OliveDrab"/>
             </StackPanel>
         </Grid>
     </Grid>
