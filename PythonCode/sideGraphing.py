@@ -136,17 +136,25 @@ class SideGraphing:
     Graphing Animation for XY Data. The plot Axes need to be cleaned a bit
     """
     @staticmethod
-    def plot_cont(arr, allYData, allXData):
+    def plot_cont(arr, allYData, allXData, name):
+        if (".csv" in name):
+            name = name.replace(".csv", '')
         xmax = len(arr)
         y = []
         fig = plt.figure()
         ax = fig.add_subplot(1,1,1)
+        ax.set_xlabel('Displacement')
+        ax.set_ylabel('Height')
+        ax.set_title(name)
 
 
         def update(i):
             y = allYData[i]
             x = allXData[i]
             ax.clear()
+            ax.set_xlabel('Displacement')
+            ax.set_ylabel('Height')
+            ax.set_title(name)
             ax.set_xlim(-2,2)
             ax.set_ylim(-1.0,1.5)
             ax.autoscale(False)
@@ -167,5 +175,5 @@ class SideGraphing:
         a = animation.FuncAnimation(fig, update, frames=xmax, repeat=True, interval=33)
         plt.show()
 
-# objer = Graphing("walter1.csv")
-# objer.plot_cont()
+#objer = SideGraphing("walter1.csv")
+#objer.plot_cont()

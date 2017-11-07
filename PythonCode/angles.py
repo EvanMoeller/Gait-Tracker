@@ -67,7 +67,7 @@ Given the name of a file, Graphs all of the data from that file (animation metho
 """
 def graphAllData(name):
     objer = SideGraphing(name)
-    objer.plot_cont(objer.arr, objer.allYData, objer.allXData)
+    objer.plot_cont(objer.arr, objer.allYData, objer.allXData, name)
 
 def getObjectOfForFile(name):
     return SideGraphing(name)
@@ -104,4 +104,4 @@ arctan((xKneeLeft-xAnkleLeft)/(yKneeLeft-yAnkleLeft))
 
 
 # graphObjectAngles("walter1.csv")
-# graphAllData("walter1.csv")
+graphAllData("aaron1.csv")
