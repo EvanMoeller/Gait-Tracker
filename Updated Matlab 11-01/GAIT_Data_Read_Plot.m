@@ -11,6 +11,9 @@ clear all %#ok<CLALL>
 [mst] = Read_Data('MaxST.csv',1103);
 [ast] = Read_Data('AaronST.csv',2050);
 [jst] = Read_Data('JacquelineST.csv',1384);
+[ast2] = Read_Data('AaronST2.csv',910);
+[wst] = Read_Data('WalterST.csv',919);
+[wst2] = Read_Data('WalterST2.csv',1062);
 
 %% Gait Motion Function
 Gait('Julia.csv') % these are the 3D viewing functions for watching motion replay
@@ -22,7 +25,10 @@ Gait('ConnorST.csv')
 [cst] = HipCalc(cst,364,'ConnorST',1); % calculating hip joint distamce and hip angle 
 [mst] = HipCalc(mst,1103,'MaxST',4);
 [ast] = HipCalc(ast,2050,'AaronST',7);
+[ast2] = HipCalc(ast2,910,'AaronST2',45);
 [jst] = HipCalc(jst,1384,'JacquelineST',34);
+[wst] = HipCalc(wst,919,'AaronST',48);
+[wst2] = HipCalc(wst2,1062,'AaronST',51);
 
 %% Dynamic Angular Features
 
@@ -50,10 +56,10 @@ Gait('ConnorST.csv')
 [msd] = thetaKnCalc(msd,95,'MaxSD',32);
 [jsd] = thetaKnCalc(jsd,115,'JacquelineSD',43);
 
-%% KNN Testing 
+%% KNN / Weka Testing
 StructureName = ['mst';'ast';'jst'];
-NormHip = [mst.NormH;ast.NormH;jst.NormH];
-NormGamma = [mst.NormG;ast.NormG;jst.NormG];
+NormHip = [mst.NormH;ast.NormH;jst.NormH;ast2.NormH;wst.NormH;wst2.NormH;0];
+NormGamma = [mst.NormG;ast.NormG;jst.NormG;ast2.NormG;wst.NormG;wst2.NormG;0];
 y = [0;0;1];
 
 X = [NormHip NormGamma];
