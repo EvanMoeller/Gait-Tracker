@@ -5,6 +5,9 @@ function[Subject] = HipCalc(Subject,T,name,num)
 %% Definition of Axes for Graphing
 X = 1:T; % for basic graphing vs time
 
+%% Normal Features
+Subject.ScaleFactor = (((Subject.KneeLeftX - Subject.FootLeftX).^2) + ((Subject.KneeLeftY - Subject.FootLeftY).^2) + ((Subject.KneeLeftZ - Subject.FootLeftZ).^2)).^0.5;
+Subject.ScaleFactor2 = rms(Subject.ScaleFactor) * ones(size(Subject.ScaleFactor));
 %% Calculation of HipDistance and Gamma angle
 Subject.HipD = (((Subject.HipLeftX - Subject.HipRightX).^2) + ((Subject.HipLeftY - Subject.HipRightY).^2) + ((Subject.HipLeftZ - Subject.HipRightZ).^2)).^0.5; % basic 3D distance formula
 Subject.HipD2 = rms(Subject.HipD) * ones(size(Subject.HipD)); % RMS calculation of distance formula as expected constant function is time varying signal
@@ -14,12 +17,9 @@ Subject.deltaY = ((Subject.HipLeftX - Subject.KneeLeftX).^2 + (Subject.HipLeftY 
 Subject.Gamma = atan2(Subject.deltaY,Subject.deltaX); % arctangent calculation
 Subject.Gamma2 = rms(Subject.Gamma) * ones(size(Subject.Gamma)); % RMS calculation for same reason as for Hip distance
 
-%% Meidan Filter
-Subject.HipDflt = medfilt1(Subject.HipD,3); % median filter for hip data (median used for static features)
-Subject.HipDflt2 = rms(Subject.HipDflt) * ones(size(Subject.HipDflt)); % RMS calculation of distance formula as expected constant function is time varying signal
-Subject.Gammaflt = medfilt1(Subject.Gamma,3);% IBID but for gamma as opposed to Hip Distance
-Subject.Gammaflt2 = rms(Subject.Gammaflt) * ones(size(Subject.Gammaflt)); % RMS calculation for same reason as for Hip distance
-%% Filtering and Graphing Data
+Subject.NormH = (Subject.HipD2(1))/(Subject.ScaleFactor2(1));
+Subject.NormG = (Subject.Gamma2(1))/(Subject.ScaleFactor2(1));
+%% Graphing Data
 figure(num)
 
 
@@ -30,8 +30,8 @@ title(['HipD 3D vs Time ',name]);
 axis([0 T .1 .3]);
 hold on
 plot(X,Subject.HipD2,'b');
-plot(X,Subject.HipDflt,'r');
-%plot(X,Subject.HipDflt2,'g');
+%plot(X,Subject.HipDflt,'r');
+
 
 
 figure(num+1)
@@ -44,9 +44,6 @@ title(['Gamma vs Time ',name]);
 axis([0 T 1 1.5]);
 hold on
 plot(X,Subject.Gamma2,'b');
-plot(X,Subject.Gammaflt,'r');
-%plot(X,Subject.Gammaflt2,'g');
+%plot(X,Subject.Gammaflt,'r');
 
-% median(Subject.HipD)
-% median(Subject.Gamma)
 end

@@ -15,22 +15,6 @@ plot(omega/pi,abs(Subject.transEl),'b')
 %% Filter Design LowPass
 q = fir1(15,.15,hamming(16));% filter design uses multiple paramaters please see me or Walter for more information of filter design (second paramater based on analysis of FFT graph)
 
-%% Filter Design LowPass 2 Alternate Method of Low Pass Filter Design fir1 appears to better 
-rp = 1;
-rs = 60;
-f_spec = [4.5 7];
-dev = [(10^(rp/20)-1) / (10^(rp/20)+1) 10^(-rs/20)];
-[N,fo,ao,w] = firpmord(f_spec,[1 0],dev,30);
-b = firpm(N,fo,ao,w);
-[H,ff] = freqz(b,1,1024,30);
-% figure;
-% stem(0:N,b);
-% figure;
-% subplot(2,1,1)
-% plot(ff,20*log10(abs(H)))
-% subplot(2,1,2)
-% plot(ff,unwrap(angle(H)))
-
 %% Filtering Data and Graphing
 Subject.thetaElflt  = filter(q,1,Subject.thetaEl); % applying filter designed
 figure(num) % Graphing Filter Data, original data and RMS
