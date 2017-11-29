@@ -16,7 +16,7 @@ clear all %#ok<CLALL>
 [wst2] = Read_Data('WalterST2.csv',1062);
 
 %% Gait Motion Function
-Gait('Julia.csv') % these are the 3D viewing functions for watching motion replay
+Gait('aaron1.csv') % these are the 3D viewing functions for watching motion replay
 Gait('ConnorST.csv')
 
 %% Static Data 
@@ -57,10 +57,30 @@ Gait('ConnorST.csv')
 [jsd] = thetaKnCalc(jsd,115,'JacquelineSD',43);
 
 %% KNN / Weka Testing
-StructureName = ['mst';'ast';'jst'];
-NormHip = [mst.NormH;ast.NormH;jst.NormH;ast2.NormH;wst.NormH;wst2.NormH;0];
-NormGamma = [mst.NormG;ast.NormG;jst.NormG;ast2.NormG;wst.NormG;wst2.NormG;0];
-y = [0;0;1];
+NormHip = [mst.NormH;ast.NormH;jst.NormH;ast2.NormH;wst.NormH;wst2.NormH];%
+NormGamma = [mst.NormG;ast.NormG;jst.NormG;ast2.NormG;wst.NormG;wst2.NormG];
+y = [0;0;1;0;0;0];
 
 X = [NormHip NormGamma];
 mdl = fitcknn(X,y);
+Xnew = [NormHip NormGamma];
+label = predict(mdl,Xnew);
+
+%-------------------------------------------------------------------------%
+
+NormHip1 = [mst.NormH;ast.NormH;jst.NormH];%
+NormGamma1 = [mst.NormG;ast.NormG;jst.NormG];
+y1 = [0;0;1];
+
+X1 = [NormHip1 NormGamma1];
+mdl1 = fitcknn(X1,y1);
+
+NormHip1T = [ast2.NormH;wst.NormH;wst2.NormH];
+NormGamma1T = [ast2.NormG;wst.NormG;wst2.NormG];
+Xnew1 = [NormHip1T NormGamma1T];
+ynew1 = [0;0;0];
+label1 = predict(mdl1,Xnew1);
+
+% Compare 
+Comp = [y,label];
+Comp2 = [ynew1,label1];

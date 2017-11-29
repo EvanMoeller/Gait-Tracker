@@ -1,8 +1,5 @@
-clc
-clear all
-close all
+function[fileName] = Gait(fileName)
 
-fileName = 'Aaron.csv';
 data = xlsread(fileName);
 frames = size(data,1);
 display(data)
@@ -125,4 +122,5 @@ for i=1:1:frames
       pause(0.01)
       cla
 
+end
 end
